@@ -1,0 +1,15 @@
+APScheduler @ file:///D:/bld/apscheduler_1610113985084/work
+cachetools @ file:///home/conda/feedstock_root/build_artifacts/cachetools_1619593780156/work
+certifi==2021.5.30
+cffi @ file:///D:/bld/cffi_1625835466651/work
+cryptography @ file:///D:/bld/cryptography_1616851819782/work
+pycparser @ file:///home/conda/feedstock_root/build_artifacts/pycparser_1593275161868/work
+PySocks @ file:///D:/bld/pysocks_1610291737679/work
+python-telegram-bot @ file:///home/conda/feedstock_root/build_artifacts/python-telegram-bot_1625618657474/work
+pytz @ file:///home/conda/feedstock_root/build_artifacts/pytz_1612179539967/work
+six @ file:///home/conda/feedstock_root/build_artifacts/six_1620240208055/work
+tornado @ file:///D:/bld/tornado_1610094910414/work
+tzlocal @ file:///home/conda/feedstock_root/build_artifacts/tzlocal_1588939190034/work
+ujson @ file:///D:/bld/ujson_1611250361826/work
+win-inet-pton @ file:///D:/bld/win_inet_pton_1610147566412/work
+wincertstore==0.2
