@@ -4,8 +4,9 @@ from telegram.ext import Updater, CommandHandler, CallbackContext
 from datetime import date, time
 
 CUMPLES = [
-    {'nombre': 'Mily', 'fecha': date(1997, 8, 7)},
-    {'nombre': 'Ale', 'fecha': date(1996, 8, 5)}
+    {'nombre': 'Mily', 'fecha': date(1997, 8, 10)},
+    {'nombre': 'Meli', 'fecha': date(2003, 8, 9)},
+    {'nombre': 'Ale', 'fecha': date(1996, 8, 12)},
 ]
 
 def start(update: Update, context: CallbackContext) -> None:
@@ -43,6 +44,7 @@ def alarm(context: CallbackContext) -> None:
 
 
 def testAlarm(context: CallbackContext) -> None:
+    print('LLEGO')
     job = context.job
     texto='Mensaje de prueba que se ejecuta cada 1 min'
     context.bot.send_message(job.context, text=texto)
@@ -50,19 +52,32 @@ def testAlarm(context: CallbackContext) -> None:
 
 def test(update: Update, context: CallbackContext) -> None:
     chat_id = update.message.chat_id
-    i = 60
-    context.job_queue.run_repeating(testAlarm, i)
+    i = 2
+    context.job_queue.run_repeating(testAlarm, i, context=chat_id, name=str(chat_id))
     text = 'El mensaje de prueba comienza a correr ahora'
     update.message.reply_text(text)
 
 
-def stop_test(bot, update, job_queue):
-    job_queue.stop()
-    bot.send_message(chat_id=update.message.chat_id,text='Prueba detenida!')
+def remove_job_if_exists(name: str, context: CallbackContext) -> bool:
+    """Remove job with given name. Returns whether job was removed."""
+    current_jobs = context.job_queue.get_jobs_by_name(name)
+    if not current_jobs:
+        return False
+    for job in current_jobs:
+        job.schedule_removal()
+    return True
+
+
+def stop_test(bot, update):
+    chat_id = bot.message.chat_id
+    job_removed = remove_job_if_exists(str(chat_id), update)
+    text = 'Prueba detenida' if job_removed else 'La prueba no se esta ejecutando'
+    bot.message.reply_text(text)
 
 
 def main() -> None:
     updater = Updater(os.environ['TOKEN'])
+    # updater = Updater(TOKEN)
     dispatcher = updater.dispatcher
 
     dispatcher.add_handler(CommandHandler("start", start))
